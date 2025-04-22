@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/blogs/',
   title: "天池月下",
   description: "个人随笔",
   head: [
