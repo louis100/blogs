@@ -10,7 +10,7 @@
 
 ```sh
 # 打包
-git run deploy
+pnpm run deploy
 
 # 推送到两个平台
 git push github master && git push gitee master
