@@ -4,6 +4,9 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "天池月下",
   description: "个人随笔",
+  head: [
+    ['meta', { name: 'keywords', content: '技术博客,前、后端开发' }]
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -22,7 +25,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://louis100.github.io/blogs/' }
     ]
   }
 })
