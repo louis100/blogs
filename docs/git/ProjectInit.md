@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 将本地项目上传到GitHub新仓库的详细步骤：
 
 # 步骤 1：创建 GitHub 仓库

@@ -3,6 +3,8 @@
 ## 介绍
 个人随笔
 
+[访问地址](https://louis100.github.io/blogs)
+
 
 ## 命令
 

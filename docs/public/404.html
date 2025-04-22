@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<script>
+  // 自动修复路由问题
+  const segment = 1;
+  sessionStorage.redirect = location.href;
+  const path = location.pathname.split("/").filter((entry) => !!entry);
+  location.href =
+    location.origin +
+    (path.slice(0, segment).length
+      ? "/" + path.slice(0, segment).join("/")
+      : "");
+</script>
