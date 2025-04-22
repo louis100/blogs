@@ -4,7 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   base: "/blogs/",
   // 构建产物输出到根目录的 dist 文件夹
-  outDir: '../dist', 
+  // outDir: '../dist', 
 
   title: "天池月下",
   description: "个人随笔",
@@ -57,8 +57,8 @@ export default defineConfig({
       ],
     },
 
-    // socialLinks: [
-    //   { icon: "github", link: "https://louis100.github.io/blogs/" },
-    // ],
+    socialLinks: [
+      { icon: "github", link: "https://louis100.github.io/blogs/" },
+    ],
   },
 });
