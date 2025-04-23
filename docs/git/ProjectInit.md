@@ -2,9 +2,11 @@
 outline: deep
 ---
 
-将本地项目上传到GitHub新仓库的详细步骤：
+# 本地项目上传到GitHub新仓库
 
-# 步骤 1：创建 GitHub 仓库
+## 将本地项目上传到GitHub新仓库的详细步骤：
+
+### 步骤 1：创建 GitHub 仓库
 1. 登录 GitHub
 2. 点击右上角 ➕ > New repository
 3. 填写仓库名称（Repository name）
@@ -12,7 +14,7 @@ outline: deep
 5. **不要勾选** "Initialize this repository with a README"
 
 
-# 步骤 2：初始化本地仓库
+### 步骤 2：初始化本地仓库
 ```bash
 # 进入项目根目录
 cd your-project-path
@@ -26,13 +28,13 @@ git add .
 # 提交代码（建议使用明确描述）
 git commit -m "Initial commit"
 ```
-# 步骤 3：关联远程仓库
+### 步骤 3：关联远程仓库
 ```bash
 # 复制GitHub仓库的HTTPS/SSH地址（推荐使用SSH）
 git remote add origin git@github.com:your-username/repo-name.git
 ```
 
-# 步骤 4：推送代码
+### 步骤 4：推送代码
 ```bash
 # 首次推送需指定上游分支
 git push -u origin main
@@ -41,7 +43,7 @@ git push -u origin main
 git push
 ```
 
-# 常用补充操作
+## 常用补充操作
 ```bash
 # 查看远程仓库关联状态
 git remote -v
@@ -52,7 +54,7 @@ git status
 # 忽略指定文件（需创建.gitignore）
 echo "node_modules/" >> .gitignore
 ```
-# 常见问题排查
+## 常见问题排查
 1. 权限拒绝：检查SSH密钥是否已添加到GitHub账户
 2. 文件冲突：先执行git pull origin main合并远程修改
 3. 忽略文件失效：确保.gitignore文件在项目根目录
