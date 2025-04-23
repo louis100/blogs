@@ -3,6 +3,9 @@ import { defineConfig } from "vitepress";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   base: "/blogs/",
+  // 构建产物输出到根目录的 dist 文件夹
+  outDir: '../dist', 
+
   title: "天池月下",
   description: "个人随笔",
   head: [
@@ -11,6 +14,9 @@ export default defineConfig({
     // ['link', { rel: 'icon', href: '/favicon.ico' }],
   ],
   themeConfig: {
+    search: {
+      provider: 'local'
+    },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "首页", link: "/" },
