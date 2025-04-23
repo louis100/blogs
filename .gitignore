@@ -9,8 +9,7 @@ lerna-debug.log*
 
 
 node_modules
-node_modules/*
-# dist
+dist
 dist-ssr
 *.local
 
@@ -28,4 +27,6 @@ dist-ssr
 *.sw?
 
 
-# cache
+cache
+.cache
+.temp
