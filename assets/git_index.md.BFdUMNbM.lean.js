@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as a}from"./chunks/framework.G66fvpWD.js";const m=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"git/index.md","filePath":"git/index.md"}'),n={name:"git/index.md"};function r(i,o,s,c,d,p){return a(),t("div")}const f=e(n,[["render",r]]);export{m as __pageData,f as default};
