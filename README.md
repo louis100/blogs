@@ -12,6 +12,9 @@
 # 本地启动
 pnpm run docs:dev
 
+# 本地启动
+pnpm run docs:preview
+
 # 打包
 pnpm run deploy
 
