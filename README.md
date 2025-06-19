@@ -20,6 +20,8 @@ pnpm run deploy
 
 # 推送到两个平台
 git push github master && git push gitee master
+# 等同于 git push <远程仓库名> <本地分支名>:<远程分支名>
+git push github master:master && git push gitee master:master
 ```
 
 
