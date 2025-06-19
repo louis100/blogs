@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue2 简版源码实现</title>
+  </head>
+  <body>
+    <div id="app">
+      <p>{{ message }}</p>
+      <input type="text" v-model="message" />
+      <button onclick="app.reverseMessage()">Reverse</button>
+      <p>Counter: {{ counter }}</p>
+      <button onclick="app.increment()">increment</button>
+    </div>
+    <script>
+      // 预编译正则表达式
+      const DELIMITERS = {
+        interpolation: /\{\{(.*?)\}\}/g,
+        directive: /^v-/,
+      };
+      // 简版Vue实现
+      class Vue {
+        constructor(options) {
+          this.$options = options;
+          this._data = typeof options.data === "function" ? options.data() : {};
+
+          // 优化后的初始化顺序
+          this._initProxy(); // 数据代理
+          new Observer(this._data); // 响应式处理
+          this._initMethods(); // 方法绑定
+          this._initComputed(); // ...其他初始化
+          new Compile(options.el, this); // 模板编译
+
+          // #region
+          //   // 数据代理（建议添加）
+          //   Object.keys(this._data).forEach((key) => {
+          //     Object.defineProperty(this, key, {
+          //       get: () => this._data[key],
+          //       set: (val) => (this._data[key] = val),
+          //       // get: function() { return this._data[key] },
+          //       // set: function(val) { this._data[key] = val }
+          //     });
+          //   });
+
+          //   // 新增方法绑定（关键修复点）
+          //   if (options.methods) {
+          //     // Object.keys(options.methods).forEach((key) => {
+          //     //   this[key] = options.methods[key].bind(this);
+          //     // });
+          //     Object.entries(options.methods).forEach(([key, method]) => {
+          //       this[key] = (...args) => method.apply(this, args);
+          //     });
+          //   }
+          // #endregion
+        }
+
+        _initProxy() {
+          // this.xxx 时 会访问会设置时， this._data[key]
+          Object.keys(this._data).forEach((key) => {
+            // Object.defineProperty(this, key, {
+            //   configurable: true,
+            //   enumerable: true,
+            //   get: () => this._data[key],
+            //   set: (val) => (this._data[key] = val),
+            // });
+            console.log("_initProxy ===>", this);
+            Object.defineProperty(this, key, {
+              get: function () {
+                return this._data[key];
+              },
+              set: function (val) {
+                this._data[key] = val;
+              },
+            });
+          });
+        }
+
+        _initMethods() {
+          // this.func 时 会访问会设置时， this.methods[key]
+          const methods = this.$options.methods || {};
+          Object.entries(methods).forEach(([key, method]) => {
+            this[key] = (...args) => method.apply(this, args);
+          });
+        }
+
+        _initComputed() {
+          const computed = this.$options.computed || {};
+          Object.entries(computed).forEach(([key, fn]) => {
+            Object.defineProperty(this, key, {
+              get: () => fn.call(this),
+              enumerable: true,
+            });
+          });
+        }
+      }
+
+      // 观察者（实现响应式）
+      class Observer {
+        constructor(data) {
+          this.walk(data);
+        }
+
+        walk(data) {
+          Object.keys(data).forEach((key) => {
+            this.defineReactive(data, key, data[key]);
+          });
+        }
+
+        defineReactive(obj, key, val) {
+          // 递归处理对象类型
+          if (typeof val === "object" && val !== null) {
+            this.walk(val);
+          }
+          const dep = new Dep();
+          Object.defineProperty(obj, key, {
+            get() {
+              if (Dep.target) {
+                dep.addSub(Dep.target);
+              }
+              return val;
+            },
+            set(newVal) {
+              if (newVal === val) return;
+              val = newVal;
+              dep.notify();
+            },
+          });
+        }
+      }
+
+      // 依赖收集器
+      class Dep {
+        constructor() {
+          this.subs = [];
+        }
+
+        addSub(sub) {
+          this.subs.push(sub);
+        }
+
+        notify() {
+          this.subs.forEach((sub) => sub.update());
+        }
+      }
+
+      // 观察者
+      class Watcher {
+        constructor(vm, key, cb) {
+          this.vm = vm;
+          this.key = key;
+          this.cb = cb;
+          Dep.target = this;
+          this._value = vm._data[key]; // 触发getter
+          Dep.target = null;
+        }
+
+        update() {
+          const newValue = this.vm._data[this.key];
+          if (newValue !== this._value) {
+            this._value = newValue;
+            this.cb(newValue);
+          }
+        }
+      }
+
+      // 模板编译器
+      class Compile {
+        constructor(el, vm) {
+          vm.$el = document.querySelector(el);
+          const fragment = document.createDocumentFragment();
+          let child;
+          while ((child = vm.$el.firstChild)) {
+            fragment.appendChild(child);
+          }
+          this.compile(fragment, vm);
+          vm.$el.appendChild(fragment);
+        }
+
+        compile(node, vm) {
+          if (node.nodeType === 1) {
+            Array.from(node.attributes).forEach((attr) => {
+              if (attr.name.startsWith("v-")) {
+                if (attr.name === "v-model") {
+                  new Watcher(vm, attr.value, (value) => {
+                    node.value = value;
+                  });
+                  node.addEventListener("input", (e) => {
+                    vm._data[attr.value] = e.target.value;
+                  });
+                }
+              }
+            });
+          } else if (node.nodeType === 3) {
+            const reg = /\{\{(.*?)\}\}/g;
+            // 1.
+            // if (reg.test(node.textContent)) {
+            //   const key = RegExp.$1.trim();
+            //   new Watcher(vm, key, (value) => {
+            //     node.textContent = value;
+            //   });
+            // }
+            // 2.
+            // node.textContent = node.textContent.replace(reg, (_, key) => {
+            //   const trimmedKey = key.trim();
+            //   new Watcher(vm, trimmedKey, (value) => {
+            //      // 问题所在：所有 Watcher 共享同一个正则实例
+            //     node.textContent = node.textContent.replace(
+            //       reg, // 这里 reg 的 lastIndex 会被全局匹配影响
+            //       (m, k) => vm._data[k.trim()]
+            //     );
+            //   });
+            //   return vm._data[trimmedKey]; // 返回初始值
+            // });
+            // 3.
+            const originText = node.textContent; // 保存原始模板
+            //// 第一次编译：初始化并创建 Watcher
+            const matches = Array.from(
+              originText.matchAll(DELIMITERS.interpolation)
+            );
+            if (matches.length) {
+              node.textContent = originText.replace(
+                DELIMITERS.interpolation,
+                (_, key) => vm._data[key.trim()]
+              );
+
+              matches.forEach((match) => {
+                console.log("match ===>", match);
+                const key = match[1].trim();
+                new Watcher(vm, key, () => {
+                  // 精准更新策略
+                  node.textContent = matches.reduce((text, m) => {
+                    return text.replace(m[0], vm._data[m[1].trim()]);
+                  }, originText);
+                });
+              });
+            }
+            // const matches = [...originText.matchAll(DELIMITERS.interpolation)];
+            // matches.forEach((match, index) => {
+            //   const key = match[1].trim();
+            //   const watcher = new Watcher(vm, key, () => {
+            //     node.textContent = originText.replace(
+            //       DELIMITERS.interpolation,
+            //       (_, k) => vm._data[k.trim()]
+            //     );
+            //   });
+            // });
+          }
+
+          if (node.childNodes) {
+            node.childNodes.forEach((child) => this.compile(child, vm));
+          }
+        }
+      }
+
+      // 使用示例
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            message: "Hello Lingma!",
+            counter: 0,
+          };
+        },
+        methods: {
+          reverseMessage() {
+            this.message = this.message.split("").reverse().join("");
+          },
+          increment() {
+            this.counter++;
+          },
+        },
+      });
+
+      ///////////////////
+      const obj = { name: "obj" };
+      function a(...args) {
+        console.log(this.name, args);
+      }
+
+      a.call(obj, ",", "");
+
+      a.apply(obj, [1, 2, 3]);
+
+      a.bind(obj, 1, 2, 3)();
+    </script>
+  </body>
+</html>
+<!-- 
+const a = `{{message}} {{counter}}`
+const b = Array.from(a.matchAll(/\{\{(.*?)\}\}/g))
+console.log(b)
+//输出结构为：
+[
+  [
+    '{{message}}',
+    'message',
+    index: 0,
+    input: '{{message}} {{counter}}',
+    groups: undefined
+  ],
+  [
+    '{{counter}}',
+    'counter',
+    index: 13,
+    input: '{{message}} {{counter}}',
+    groups: undefined
+  ]
+]
+
+// 使用对象存储‌：
+const result = {
+  0: '{{ counter }}',
+  1: ' counter ',
+  index: 9,
+  input: 'Counter: {{ counter }}',
+  groups: undefined
+};
+
+// 使用数组扩展+对象属性‌：
+const arr = ['{{ counter }}', ' counter '];
+arr.index = 9;
+arr.input = 'Counter: {{ counter }}';
+arr.groups = undefined;
+
+-->
