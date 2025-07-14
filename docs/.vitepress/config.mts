@@ -116,8 +116,9 @@ export default defineConfig({
         text: "md & vitepress",
         items: [
           { text: "md 中标题级别应该如何正确使用", link: "/md/" },
-          { text: "examples", link: "/examples/markdown-examples" },
           { text: "vitepress", link: "/vitepress/" },
+          { text: "Markdown Examples", link: "/examples/markdown-examples" },
+          { text: "API Examples", link: "/examples/api-examples" },
         ],
       },
     ],
