@@ -7,15 +7,15 @@ import { defineConfig, loadEnv } from "vitepress";
 构建命令默认行为：vitepress build 会强制设置 NODE_ENV=production
 process.env.NODE_ENV === 'production'
  */
-console.log("MODE:", process.env.MODE);
-console.log("NODE_ENV:", process.env.NODE_ENV);
+// console.log("MODE:", process.env.MODE);
+// console.log("NODE_ENV:", process.env.NODE_ENV);
 // console.log('import: VITE_APP_TITLE', import.meta.env.VITE_APP_TITLE)
 
 const env = loadEnv("", process?.cwd?.(), "VITE_"); // 显式加载
 console.log("VITE_BASE_PATH:", env);
 
-console.log("MODE:", process.env.MODE);
-console.log("NODE_ENV:", process.env.NODE_ENV);
+// console.log("MODE:", process.env.MODE);
+// console.log("NODE_ENV:", process.env.NODE_ENV);
 // console.log('import: VITE_APP_TITLE', import.meta.env.VITE_APP_TITLE)
 
 // https://vitepress.dev/reference/site-config
@@ -54,6 +54,53 @@ export default defineConfig({
       { text: "vitepress", link: "/vitepress/" },
       { text: "部署", link: "/部署/前后端 nginx 部署" },
       { text: "md", link: "/md/" },
+      {
+        text: "前端",
+        items: [
+          { text: "工具", link: "/前端/工具/node版本管理工具" },
+          { text: "设计模式", link: "/前端/设计模式/常用设计模式" },
+          { text: "Antd", link: "/前端/Antd/Form 字段值存储机制" },
+          {
+            text: "Html",
+            items: [
+              {
+                text: "HTML DOM节点类型与nodeType值的对照表及示例说明",
+                link: "/前端/Antd/HTML DOM节点类型与nodeType值的对照表及示例说明",
+              },
+              // { text: "闭包", link: "/前端/JS/闭包" },
+              // { text: "基础 this", link: "/前端/JS/基础 this" },
+            ],
+          },
+          {
+            text: "JS",
+            items: [
+              {
+                text: "apply & call & bind 异同",
+                link: "/前端/JS/apply & call & bind 异同",
+              },
+              { text: "闭包", link: "/前端/JS/闭包" },
+              { text: "基础 this", link: "/前端/JS/基础 this" },
+              { text: "对象的深浅拷贝", link: "/前端/JS/对象/对象的深浅拷贝" },
+            ],
+          },
+          {
+            text: "Vue",
+            items: [
+              { text: "Vue 的理解", link: "/前端/Vue/Vue 的理解" },
+              { text: "Vue 源码解读", link: "/前端/Vue/Vue 源码解读" },
+            ],
+          },
+          {
+            text: "React",
+            items: [
+              {
+                text: "React组件中怎么做事件代理及原理",
+                link: "/前端/React/React组件中怎么做事件代理及原理",
+              },
+            ],
+          },
+        ],
+      },
     ],
 
     sidebar: {
@@ -105,7 +152,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: "github", link: "https://louis100.github.io/blogs/" },
+      { icon: "github", ariaLabel: "github",link: "https://louis100.github.io/blogs/" },
     ],
   },
 });
