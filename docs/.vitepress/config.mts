@@ -36,8 +36,65 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "首页", link: "/" },
-      { text: "examples", link: "/examples/markdown-examples" },
-      // { text: "git", link: "/git/" },
+
+      {
+        text: "工具",
+        items: [
+          { text: "node版本管理工具", link: "/前端/工具/node版本管理工具" },
+        ],
+      },
+      {
+        text: "设计模式",
+        items: [{ text: "常用设计模式", link: "/前端/设计模式/常用设计模式" }],
+      },
+      {
+        text: "Antd",
+        items: [
+          {
+            text: "Form 字段值存储机制",
+            link: "/前端/Antd/Form 字段值存储机制",
+          },
+        ],
+      },
+      {
+        text: "Html",
+        items: [
+          {
+            text: "HTML DOM节点类型与nodeType值的对照表及示例说明",
+            link: "/前端/Antd/HTML DOM节点类型与nodeType值的对照表及示例说明",
+          },
+          // { text: "闭包", link: "/前端/JS/闭包" },
+          // { text: "基础 this", link: "/前端/JS/基础 this" },
+        ],
+      },
+      {
+        text: "JS",
+        items: [
+          {
+            text: "apply & call & bind 异同",
+            link: "/前端/JS/apply & call & bind 异同",
+          },
+          { text: "闭包", link: "/前端/JS/闭包" },
+          { text: "基础 this", link: "/前端/JS/基础 this" },
+          { text: "对象的深浅拷贝", link: "/前端/JS/对象/对象的深浅拷贝" },
+        ],
+      },
+      {
+        text: "Vue",
+        items: [
+          { text: "Vue 的理解", link: "/前端/Vue/Vue 的理解" },
+          { text: "Vue 源码解读", link: "/前端/Vue/Vue 源码解读" },
+        ],
+      },
+      {
+        text: "React",
+        items: [
+          {
+            text: "React组件中怎么做事件代理及原理",
+            link: "/前端/React/React组件中怎么做事件代理及原理",
+          },
+        ],
+      },
       {
         text: "git",
         items: [
@@ -51,54 +108,16 @@ export default defineConfig({
           { text: "vitepress 部署到 GitHub", link: "/git/vitepressToGithub" },
         ],
       },
-      { text: "vitepress", link: "/vitepress/" },
-      { text: "部署", link: "/部署/前后端 nginx 部署" },
-      { text: "md", link: "/md/" },
       {
-        text: "前端",
+        text: "部署",
+        items: [{ text: "前后端 nginx 部署", link: "/部署/前后端 nginx 部署" }],
+      },
+      {
+        text: "md & vitepress",
         items: [
-          { text: "工具", link: "/前端/工具/node版本管理工具" },
-          { text: "设计模式", link: "/前端/设计模式/常用设计模式" },
-          { text: "Antd", link: "/前端/Antd/Form 字段值存储机制" },
-          {
-            text: "Html",
-            items: [
-              {
-                text: "HTML DOM节点类型与nodeType值的对照表及示例说明",
-                link: "/前端/Antd/HTML DOM节点类型与nodeType值的对照表及示例说明",
-              },
-              // { text: "闭包", link: "/前端/JS/闭包" },
-              // { text: "基础 this", link: "/前端/JS/基础 this" },
-            ],
-          },
-          {
-            text: "JS",
-            items: [
-              {
-                text: "apply & call & bind 异同",
-                link: "/前端/JS/apply & call & bind 异同",
-              },
-              { text: "闭包", link: "/前端/JS/闭包" },
-              { text: "基础 this", link: "/前端/JS/基础 this" },
-              { text: "对象的深浅拷贝", link: "/前端/JS/对象/对象的深浅拷贝" },
-            ],
-          },
-          {
-            text: "Vue",
-            items: [
-              { text: "Vue 的理解", link: "/前端/Vue/Vue 的理解" },
-              { text: "Vue 源码解读", link: "/前端/Vue/Vue 源码解读" },
-            ],
-          },
-          {
-            text: "React",
-            items: [
-              {
-                text: "React组件中怎么做事件代理及原理",
-                link: "/前端/React/React组件中怎么做事件代理及原理",
-              },
-            ],
-          },
+          { text: "md 中标题级别应该如何正确使用", link: "/md/" },
+          { text: "examples", link: "/examples/markdown-examples" },
+          { text: "vitepress", link: "/vitepress/" },
         ],
       },
     ],
@@ -152,7 +171,11 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: "github", ariaLabel: "github",link: "https://louis100.github.io/blogs/" },
+      {
+        icon: "github",
+        ariaLabel: "github",
+        link: "https://louis100.github.io/blogs/",
+      },
     ],
   },
 });
