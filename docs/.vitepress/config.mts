@@ -27,7 +27,7 @@ export default defineConfig({
   description: "个人随笔",
   lastUpdated: true,
   head: [
-    ["meta", { name: "keywords", content: "技术博客,前、后端开发" }],
+    ["meta", { name: "keywords", content: "技术博客，前、后端开发" }],
     //
     // ['link', { rel: 'icon', href: '/favicon.ico' }],
   ],
@@ -84,6 +84,7 @@ export default defineConfig({
         items: [
           { text: "Vue 的理解", link: "/前端/Vue/Vue 的理解" },
           { text: "Vue 源码解读", link: "/前端/Vue/Vue 源码解读" },
+          { text: "组件封装时 props 定义的常见方式", link: "/前端/Vue/组件封装时 props 定义的常见方式" },
         ],
       },
       {
