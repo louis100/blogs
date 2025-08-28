@@ -113,6 +113,10 @@ export default defineConfig({
         text: "部署",
         items: [{ text: "前后端 nginx 部署", link: "/部署/前后端 nginx 部署" }],
       },
+	  {
+        text: "Java",
+        items: [{ text: "如何将 jar 打包成 win 服务", link: "/Java/JeecgBoot/如何将 jar 打包成 win 服务" }],
+      },
       {
         text: "md & vitepress",
         items: [
