@@ -46,6 +46,7 @@ export default defineConfig({
       {
         text: "设计模式",
         items: [{ text: "常用设计模式", link: "/前端/设计模式/常用设计模式" }],
+        items: [{ text: "类似审批中单据详情组件注册方案", link: "/前端/设计模式/类似审批中单据详情组件注册方案" }],
       },
       {
         text: "Antd",
